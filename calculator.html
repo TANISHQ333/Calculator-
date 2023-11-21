@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CALCULATOR</title>
+</head>
+
+<body>
+    <!-- CSS STARTS HERE -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .container {
+            height: 100vh;
+            width: 100%;
+            background: #d0e530;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .calculator {
+            background: #385632;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .calculator form input {
+            border: 0;
+            outline: 0;
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            box-shadow: -8px -8px 15px rgba(255, 255, 255, 0.1), 5px 5px 15px rgba(0, 0, 0, 0.2);
+            background: transparent;
+            font-size: 26px;
+            color: #fff;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .calculator form .display {
+            display: flex;
+            justify-content: flex-end;
+            margin: 20px 0;
+        }
+
+        .calculator form .display input {
+            text-align: right;
+            flex: 1;
+            font-size: 45px;
+            box-shadow: none;
+        }
+
+        .calculator form input.equal {
+            width: 145px;
+        }
+
+        .calculator form input.operator {
+            color: #000000;
+            font-weight: bold;
+        }
+    </style>
+    <div class="container">
+        <div class="calculator">
+            <form>
+                <div class="display">
+                    <input type="text" name="display">
+                </div>
+                <div>
+                    <input type="button" value="AC" onclick="clearDisplay()" class="operator">
+                    <input type="button" value="DE" onclick="deleteLastCharacter()" class="operator">
+                    <input type="button" value="." onclick="appendDecimal()" class="operator">
+                    <input type="button" value="/" onclick="appendOperator('/')" class="operator">
+                </div>
+                <div>
+                    <input type="button" value="7" onclick="appendToDisplay('7')">
+                    <input type="button" value="8" onclick="appendToDisplay('8')">
+                    <input type="button" value="9" onclick="appendToDisplay('9')">
+                    <input type="button" value="*" onclick="appendOperator('*')" class="operator">
+                </div>
+                <div>
+                    <input type="button" value="4" onclick="appendToDisplay('4')">
+                    <input type="button" value="5" onclick="appendToDisplay('5')">
+                    <input type="button" value="6" onclick="appendToDisplay('6')">
+                    <input type="button" value="-" onclick="appendOperator('-')" class="operator">
+                </div>
+                <div>
+                    <input type="button" value="1" onclick="appendToDisplay('1')">
+                    <input type="button" value="2" onclick="appendToDisplay('2')">
+                    <input type="button" value="3" onclick="appendToDisplay('3')">
+                    <input type="button" value="+" onclick="appendOperator('+')" class="operator">
+                </div>
+                <div>
+                    <input type="button" value="00" onclick="appendToDisplay('00')">
+                    <input type="button" value="0" onclick="appendToDisplay('0')">
+                    <input type="button" value="=" onclick="calculateResult()" class="equal operator">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVA-SCRIPT -->
+    <script>
+        function appendToDisplay(value) {
+            document.forms[0].display.value += value;
+        }
+
+        function clearDisplay() {
+            document.forms[0].display.value = '';
+        }
+
+        function deleteLastCharacter() {
+            document.forms[0].display.value = document.forms[0].display.value.slice(0, -1);
+        }
+
+        function appendDecimal() {
+            if (!document.forms[0].display.value.includes('.')) {
+                document.forms[0].display.value += '.';
+            }
+        }
+
+        function appendOperator(operator) {
+            document.forms[0].display.value += operator;
+        }
+
+        function calculateResult() {
+            document.forms[0].display.value = eval(document.forms[0].display.value);
+        }
+        document.addEventListener('keydown', function (event) {
+            switch (event.key) {
+                case 'Enter':
+                    calculateResult();
+                    break;
+                case 'Backspace':
+                    deleteLastCharacter();
+                    break;
+                case '.':
+                    appendDecimal();
+                    break;
+                case '/':
+                case '*':
+                case '-':
+                case '+':
+                    appendOperator(event.key);
+                    break;
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    appendToDisplay(event.key);
+                    break;
+                default:
+                    break;
+            }
+        });
+
+    </script>
+</body>
+
+</html>
